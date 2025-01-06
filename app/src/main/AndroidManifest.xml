@@ -22,6 +22,12 @@
             android:name=".activities.DetailsActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.TeamListActivity"
+            />
+        <activity
+            android:name=".activities.PlayersActivity"
+            />
+        <activity
             android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>

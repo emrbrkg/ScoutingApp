@@ -16,6 +16,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/teamsButton"
+        android:layout_width="145dp"
+        android:layout_height="51dp"
+        android:text="Teams"
+        app:layout_constraintTop_toBottomOf="@id/recyclerView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button" />
+
+    <Button
         android:id="@+id/button"
         android:layout_width="145dp"
         android:layout_height="51dp"
