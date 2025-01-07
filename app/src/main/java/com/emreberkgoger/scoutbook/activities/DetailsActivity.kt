@@ -125,6 +125,7 @@ class DetailsActivity : AppCompatActivity()
         val age = binding.ageText.text.toString()
         val value = binding.valueText.text.toString()
         val team = binding.teamText.text.toString()
+        val details = binding.textView.text.toString()
 
         val positionEnum = PlayerPosition.fromValue(selectedPosition)
         if (positionEnum == null) {
@@ -133,8 +134,8 @@ class DetailsActivity : AppCompatActivity()
         }
         val position = positionEnum.positionName
 
-       if (selectedBitmap != null) {
-           // görseli ayarlamak için yapılan işlemler.
+        if (selectedBitmap != null) {
+            // görseli ayarlamak için yapılan işlemler.
             val smallBitmap = makeSmallerBitMap(selectedBitmap!!, 300)
             val outputStream = ByteArrayOutputStream()
             smallBitmap.compress(Bitmap.CompressFormat.PNG, 50, outputStream)
@@ -142,9 +143,9 @@ class DetailsActivity : AppCompatActivity()
 
             try {
                 val PlayerDatabase = this.openOrCreateDatabase("Players", MODE_PRIVATE, null)
-                PlayerDatabase.execSQL("CREATE TABLE IF NOT EXISTS players (id INTEGER PRIMARY KEY, name VARCHAR, country VARCHAR, position VARCHAR, age VARCHAR, value VARCHAR, team VARCHAR, image BLOB)")
+                PlayerDatabase.execSQL("CREATE TABLE IF NOT EXISTS players (id INTEGER PRIMARY KEY, name VARCHAR, country VARCHAR, position VARCHAR, age VARCHAR, value VARCHAR, team VARCHAR, image BLOB, details VARCHAR)")
 
-                val sqlString = "INSERT INTO players (name, country, position, age, value, team, image) VALUES (?, ?, ?, ?, ?, ?, ?)"
+                val sqlString = "INSERT INTO players (name, country, position, age, value, team, image, details) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
                 val statement = PlayerDatabase.compileStatement(sqlString)
 
                 statement.bindString(1, name)
@@ -154,6 +155,7 @@ class DetailsActivity : AppCompatActivity()
                 statement.bindString(5, value)
                 statement.bindString(6, team)
                 statement.bindBlob(7, byteArray)
+                statement.bindString(8, details)
                 statement.execute()
 
             } catch (e : Exception) {
@@ -222,7 +224,7 @@ class DetailsActivity : AppCompatActivity()
         val intent = Intent(this@DetailsActivity, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
-   }
+    }
 
     // Delete onClick metodu
     fun deleteButton(view: View) {
@@ -270,8 +272,8 @@ class DetailsActivity : AppCompatActivity()
     // Oyuncu detayına gitme butonunun onClick metodu
     fun goToPlayerDetails(view: View) {
         val intentToPlayerDetail = Intent(this@DetailsActivity, PlayerDetailsActivity::class.java)
-        val playerId = intent.getIntExtra("playerId", -1) // Bu id ilgili oyuncuya ait olmalı.
-        intentToPlayerDetail.putExtra("playerId", playerId)
+        val playerId = intent.getIntExtra("id", 1)
+        intentToPlayerDetail.putExtra("playerId", playerId) // Oyuncunun id'sini detay ekranına gönder
         startActivity(intentToPlayerDetail)
     }
 

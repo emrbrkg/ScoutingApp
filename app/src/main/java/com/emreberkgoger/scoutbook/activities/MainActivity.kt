@@ -35,11 +35,13 @@ class MainActivity : AppCompatActivity() {
             val cursor = PlayerDatabase.rawQuery("SELECT * FROM players", null)
             val nameIndex = cursor.getColumnIndex("name")
             val idIndex = cursor.getColumnIndex("id")
+            val imageIndex = cursor.getColumnIndex("image")
 
             while (cursor.moveToNext()) {
                 val name = cursor.getString(nameIndex)
                 val id = cursor.getInt(idIndex)
-                val player = Player(name, id)
+                val image = cursor.getBlob(imageIndex)
+                val player = Player(name, id, image)
                 playerList.add(player)
             }
             playerAdapter.notifyDataSetChanged()
