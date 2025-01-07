@@ -17,6 +17,7 @@ enum class PlayerPosition(val positionName: String) {
     override fun toString(): String {
         return positionName
     }
+
     companion object {
         fun fromValue(value: String): PlayerPosition? {
             return values().find { it.positionName == value }

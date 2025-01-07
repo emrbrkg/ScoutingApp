@@ -2,18 +2,18 @@ package com.emreberkgoger.scoutbook.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.emreberkgoger.scoutbook.databinding.ActivityMainBinding
 import com.emreberkgoger.scoutbook.models.Player
 import com.emreberkgoger.scoutbook.recyclerViewAdapter.PlayerAdapter
-import com.emreberkgoger.scoutbook.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityMainBinding
-    private lateinit var playerList : ArrayList<Player>
-    private lateinit var playerAdapter : PlayerAdapter
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var playerList: ArrayList<Player>
+    private lateinit var playerAdapter: PlayerAdapter
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,13 +46,13 @@ class MainActivity : AppCompatActivity() {
             }
             playerAdapter.notifyDataSetChanged()
             cursor.close()
-        } catch (e : Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     // add butonunun onClick() metodu:
-    fun add(view : View) {
+    fun add(view: View) {
         val intent = Intent(this@MainActivity, DetailsActivity::class.java)
         intent.putExtra("info", "new")
         startActivity(intent)

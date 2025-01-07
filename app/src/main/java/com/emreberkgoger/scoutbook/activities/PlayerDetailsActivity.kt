@@ -27,7 +27,10 @@ class PlayerDetailsActivity : AppCompatActivity() {
     private fun loadPlayerDetails(playerId: Int) {
         try {
             val playerDatabase = this.openOrCreateDatabase("Players", MODE_PRIVATE, null)
-            val cursor = playerDatabase.rawQuery("SELECT * FROM players WHERE id = ?", arrayOf(playerId.toString()))
+            val cursor = playerDatabase.rawQuery(
+                "SELECT * FROM players WHERE id = ?",
+                arrayOf(playerId.toString())
+            )
 
             if (cursor.moveToFirst()) {
                 val detailsIndex = cursor.getColumnIndex("details")

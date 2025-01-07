@@ -9,7 +9,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
@@ -20,6 +19,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.emreberkgoger.scoutbook.R
@@ -28,13 +28,12 @@ import com.emreberkgoger.scoutbook.enums.PlayerPosition
 import com.google.android.material.snackbar.Snackbar
 import java.io.ByteArrayOutputStream
 
-class DetailsActivity : AppCompatActivity()
-{
-    private lateinit var binding : ActivityDetailsBinding
-    private  lateinit var permissionLauncher : ActivityResultLauncher<String>
-    private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>    // intent ile gidip sonucunda bize veri döndüren result launcher olacak.
-    var selectedBitmap : Bitmap? = null
-    private lateinit var PlayerDatabase : SQLiteDatabase
+class DetailsActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityDetailsBinding
+    private lateinit var permissionLauncher: ActivityResultLauncher<String>
+    private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>    // intent ile gidip sonucunda bize veri döndüren result launcher olacak.
+    var selectedBitmap: Bitmap? = null
+    private lateinit var PlayerDatabase: SQLiteDatabase
 
     @SuppressLint("Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,7 +74,10 @@ class DetailsActivity : AppCompatActivity()
         } else {
             binding.saveButton.visibility = View.INVISIBLE
             val selectedId = intent.getIntExtra("id", 1)
-            val cursor = PlayerDatabase.rawQuery("SELECT * FROM players WHERE id = ?", arrayOf(selectedId.toString()))
+            val cursor = PlayerDatabase.rawQuery(
+                "SELECT * FROM players WHERE id = ?",
+                arrayOf(selectedId.toString())
+            )
             val nameIndex = cursor.getColumnIndex("name")
             val countryIndex = cursor.getColumnIndex("country")
             val positionIndex = cursor.getColumnIndex("position")
@@ -93,7 +95,8 @@ class DetailsActivity : AppCompatActivity()
 
                 // Veritabanından gelen pozisyonu enum ile eşleştir
                 val position = cursor.getString(positionIndex)
-                val positionIndexInEnum = PlayerPosition.values().indexOfFirst { it.positionName == position }
+                val positionIndexInEnum =
+                    PlayerPosition.values().indexOfFirst { it.positionName == position }
                 if (positionIndexInEnum >= 0) {
                     binding.positionSpinner.setSelection(positionIndexInEnum)
                 }
@@ -105,20 +108,26 @@ class DetailsActivity : AppCompatActivity()
         }
 
         // Spinner'dan seçilen pozisyonu saklamak için
-        binding.positionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedPosition = PlayerPosition.values()[position]
-                // Seçilen pozisyonu kaydetmek için bir değişken
-            }
+        binding.positionSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val selectedPosition = PlayerPosition.values()[position]
+                    // Seçilen pozisyonu kaydetmek için bir değişken
+                }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Hiçbir şey seçilmezse yapılacak işlemler (genellikle boş bırakılır)
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    // Hiçbir şey seçilmezse yapılacak işlemler (genellikle boş bırakılır)
+                }
             }
-        }
     }
 
     // save butonu onClick metodu
-    fun saveButton(view : View) {
+    fun saveButton(view: View) {
         val name = binding.nameText.text.toString()
         val country = binding.countryText.text.toString()
         val selectedPosition = binding.positionSpinner.selectedItem.toString()
@@ -134,8 +143,8 @@ class DetailsActivity : AppCompatActivity()
         }
         val position = positionEnum.positionName
 
-       if (selectedBitmap != null) {
-           // görseli ayarlamak için yapılan işlemler.
+        if (selectedBitmap != null) {
+            // görseli ayarlamak için yapılan işlemler.
             val smallBitmap = makeSmallerBitMap(selectedBitmap!!, 300)
             val outputStream = ByteArrayOutputStream()
             smallBitmap.compress(Bitmap.CompressFormat.PNG, 50, outputStream)
@@ -145,7 +154,8 @@ class DetailsActivity : AppCompatActivity()
                 val PlayerDatabase = this.openOrCreateDatabase("Players", MODE_PRIVATE, null)
                 PlayerDatabase.execSQL("CREATE TABLE IF NOT EXISTS players (id INTEGER PRIMARY KEY, name VARCHAR, country VARCHAR, position VARCHAR, age VARCHAR, value VARCHAR, team VARCHAR, image BLOB, details VARCHAR)")
 
-                val sqlString = "INSERT INTO players (name, country, position, age, value, team, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+                val sqlString =
+                    "INSERT INTO players (name, country, position, age, value, team, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
                 val statement = PlayerDatabase.compileStatement(sqlString)
 
                 statement.bindString(1, name)
@@ -158,7 +168,7 @@ class DetailsActivity : AppCompatActivity()
                 statement.bindString(8, details)
                 statement.execute()
 
-            } catch (e : Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
             val intent = Intent(this@DetailsActivity, MainActivity::class.java)
@@ -224,7 +234,7 @@ class DetailsActivity : AppCompatActivity()
         val intent = Intent(this@DetailsActivity, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
-   }
+    }
 
     // Delete onClick metodu
     fun deleteButton(view: View) {
@@ -256,12 +266,12 @@ class DetailsActivity : AppCompatActivity()
         builder.setTitle("Delete Confirmation")
         builder.setMessage("Are you sure of deleting this player permanently ?")
 
-        builder.setPositiveButton("Yes") { dialog, _->
+        builder.setPositiveButton("Yes") { dialog, _ ->
             deletePlayer(view)
             dialog.dismiss()
         }
 
-        builder.setNegativeButton("No") { dialog, _->
+        builder.setNegativeButton("No") { dialog, _ ->
             dialog.dismiss()
         }
 
@@ -273,17 +283,20 @@ class DetailsActivity : AppCompatActivity()
     fun goToPlayerDetails(view: View) {
         val intentToPlayerDetail = Intent(this@DetailsActivity, PlayerDetailsActivity::class.java)
         val playerId = intent.getIntExtra("id", 1)
-        intentToPlayerDetail.putExtra("playerId", playerId) // Oyuncunun id'sini detay ekranına gönder
+        intentToPlayerDetail.putExtra(
+            "playerId",
+            playerId
+        ) // Oyuncunun id'sini detay ekranına gönder
         startActivity(intentToPlayerDetail)
     }
 
     // Çektiğimiz görsellerin mümkün olduğunca az yer kaplaması lazım. Görselleri küçültmek için bu fonksiyonu kullanacağız:
     // Bitmapi küçültmek için genel geçer kullanılabilecek bir fonksiyondur.
-    fun makeSmallerBitMap(image : Bitmap, maximumSize : Int) : Bitmap {
+    fun makeSmallerBitMap(image: Bitmap, maximumSize: Int): Bitmap {
         var width = image.width
         var height = image.height
 
-        val bitmapRatio : Double = width.toDouble() / height.toDouble()
+        val bitmapRatio: Double = width.toDouble() / height.toDouble()
 
         // Görselleri aynı oranda küçültmek için kurduğumuz algoritma
         if (bitmapRatio > 1) {
@@ -302,8 +315,16 @@ class DetailsActivity : AppCompatActivity()
 
     fun selectImage(view: View) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_MEDIA_IMAGES)) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.READ_MEDIA_IMAGES
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(
+                        this,
+                        Manifest.permission.READ_MEDIA_IMAGES
+                    )
+                ) {
                     Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE)
                         .setAction("Give permission", View.OnClickListener {
                             permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
@@ -313,12 +334,21 @@ class DetailsActivity : AppCompatActivity()
                     permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
                 }
             } else {
-                val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                val intentToGallery =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 activityResultLauncher.launch(intentToGallery)
             }
         } else {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(
+                        this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    )
+                ) {
                     Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE)
                         .setAction("Give permission", View.OnClickListener {
                             permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -335,9 +365,13 @@ class DetailsActivity : AppCompatActivity()
                     .setItems(options) { _, which ->
                         when (which) {
                             0 -> { // Galeri seçimi
-                                val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                                val intentToGallery = Intent(
+                                    Intent.ACTION_PICK,
+                                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                                )
                                 activityResultLauncher.launch(intentToGallery)
                             }
+
                             1 -> { // Drawable kaynakları seçimi
                                 showDrawableResourcePicker()
                             }
@@ -370,44 +404,51 @@ class DetailsActivity : AppCompatActivity()
 
     private fun registerLauncher() {
         // Galeriye gitmek ve galeriden fotoğraf seçme işlemleri
-        activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val intentFromResult = result.data
-                if (intentFromResult != null)
-                {
-                    val imageData = intentFromResult.data
-                    //binding.imageView.setImageURI(imageData)
-                    // Kendi bitmapimizi oluşturup oradan veriyi küçültüp SQLite'a kaydedeceğiz (?)
-                    // URI'ı bitmape çevireceğiz.
-                    // Birçok farklı hataya açık bir işlem olduğundan try catch içinde yazacağız.
-                    if (imageData != null) {
-                        try {
-                            // Bu kontrol, yapmadığımızda SDK hatası veriyodu. Yani eski cihazlarda çalışmayacağına dair
-                            if (Build.VERSION.SDK_INT >= 28) {
-                                // Bitmap'e çevirme işlemleri:
-                                val source = ImageDecoder.createSource(contentResolver, imageData)
-                                selectedBitmap = ImageDecoder.decodeBitmap(source)
-                                binding.imageView.setImageBitmap(selectedBitmap)
-                            } else {
-                                selectedBitmap = MediaStore.Images.Media.getBitmap(this@DetailsActivity.contentResolver, imageData)
-                                binding.imageView.setImageBitmap(selectedBitmap)
+        activityResultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    val intentFromResult = result.data
+                    if (intentFromResult != null) {
+                        val imageData = intentFromResult.data
+                        //binding.imageView.setImageURI(imageData)
+                        // Kendi bitmapimizi oluşturup oradan veriyi küçültüp SQLite'a kaydedeceğiz (?)
+                        // URI'ı bitmape çevireceğiz.
+                        // Birçok farklı hataya açık bir işlem olduğundan try catch içinde yazacağız.
+                        if (imageData != null) {
+                            try {
+                                // Bu kontrol, yapmadığımızda SDK hatası veriyodu. Yani eski cihazlarda çalışmayacağına dair
+                                if (Build.VERSION.SDK_INT >= 28) {
+                                    // Bitmap'e çevirme işlemleri:
+                                    val source =
+                                        ImageDecoder.createSource(contentResolver, imageData)
+                                    selectedBitmap = ImageDecoder.decodeBitmap(source)
+                                    binding.imageView.setImageBitmap(selectedBitmap)
+                                } else {
+                                    selectedBitmap = MediaStore.Images.Media.getBitmap(
+                                        this@DetailsActivity.contentResolver,
+                                        imageData
+                                    )
+                                    binding.imageView.setImageBitmap(selectedBitmap)
+                                }
+                            } catch (e: Exception) {
+                                e.printStackTrace()
                             }
-                        } catch (e: Exception) {
-                            e.printStackTrace()
                         }
                     }
                 }
             }
-        }
 
         // Galeriye gitmek için kullanılan izin işlemleri
-        permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { success ->
-            if (success) {
-                val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                activityResultLauncher.launch(intentToGallery)
-            } else {
-                Toast.makeText(this@DetailsActivity, "Permission needed!", Toast.LENGTH_LONG).show()
+        permissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { success ->
+                if (success) {
+                    val intentToGallery =
+                        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    activityResultLauncher.launch(intentToGallery)
+                } else {
+                    Toast.makeText(this@DetailsActivity, "Permission needed!", Toast.LENGTH_LONG)
+                        .show()
+                }
             }
-        }
     }
 }
