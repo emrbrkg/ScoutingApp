@@ -57,6 +57,7 @@ class DetailsActivity : AppCompatActivity() {
         binding.positionSpinner.adapter = adapter
 
         if (info == "new") {
+            // Main Activityden add player ile buraya gelinir.
             // Yeni oyuncu ekleme durumunda Spinner varsayılan olarak ilk elemanı seçer
             binding.nameText.setText("")
             binding.countryText.setText("")
@@ -72,6 +73,7 @@ class DetailsActivity : AppCompatActivity() {
             binding.imageView.setImageBitmap(selectedImageBackground)
 
         } else {
+            // Hali hazırda kayıtlı olan bir oyuncuya tıklandığında onun bilgileri gelir.
             binding.saveButton.visibility = View.INVISIBLE
             val selectedId = intent.getIntExtra("id", 1)
             val cursor = PlayerDatabase.rawQuery(
@@ -127,6 +129,7 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     // save butonu onClick metodu
+    // Oyuncu kaydetme butonu
     fun saveButton(view: View) {
         val name = binding.nameText.text.toString()
         val country = binding.countryText.text.toString()
@@ -143,6 +146,7 @@ class DetailsActivity : AppCompatActivity() {
         }
         val position = positionEnum.positionName
 
+        // Bir görsel seçilmeden oyuncu kaydedilmemektedir.
         if (selectedBitmap != null) {
             // görseli ayarlamak için yapılan işlemler.
             val smallBitmap = makeSmallerBitMap(selectedBitmap!!, 300)
@@ -151,11 +155,12 @@ class DetailsActivity : AppCompatActivity() {
             val byteArray = outputStream.toByteArray()
 
             try {
+                // Veri tabanına oyuncu bilgilerini kaydetme işlemleri
                 val PlayerDatabase = this.openOrCreateDatabase("Players", MODE_PRIVATE, null)
                 PlayerDatabase.execSQL("CREATE TABLE IF NOT EXISTS players (id INTEGER PRIMARY KEY, name VARCHAR, country VARCHAR, position VARCHAR, age VARCHAR, value VARCHAR, team VARCHAR, image BLOB, details VARCHAR)")
 
                 val sqlString =
-                    "INSERT INTO players (name, country, position, age, value, team, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+                    "INSERT INTO players (name, country, position, age, value, team, image, details) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
                 val statement = PlayerDatabase.compileStatement(sqlString)
 
                 statement.bindString(1, name)
@@ -171,6 +176,7 @@ class DetailsActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+            // Kaydedildikten sonra MainActivity'e döner.
             val intent = Intent(this@DetailsActivity, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
@@ -262,15 +268,16 @@ class DetailsActivity : AppCompatActivity() {
 
     // delete işleminde kullanıcıya emin misiniz diye soran AlertDialogun oluşturulduğu metot.
     fun showDeleteConfirmationDialog(view: View) {
+        // AlertDialogun fieldlarını oluşturmak için builder design patternı kullanımı
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Delete Confirmation")
         builder.setMessage("Are you sure of deleting this player permanently ?")
-
+        // positif buton aksiyonu:
         builder.setPositiveButton("Yes") { dialog, _ ->
             deletePlayer(view)
             dialog.dismiss()
         }
-
+        // Negatif buton aksiyonu:
         builder.setNegativeButton("No") { dialog, _ ->
             dialog.dismiss()
         }
@@ -313,58 +320,71 @@ class DetailsActivity : AppCompatActivity() {
         return Bitmap.createScaledBitmap(image, width, height, true)
     }
 
+    // Görsel seçmede kullanılan fonksiyondur.
     fun selectImage(view: View) {
+        // Android sürüm kontrolü: Android 13 (TIRAMISU) ve üzeri için farklı izinler kullanılıyor.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Galeriye erişim için READ_MEDIA_IMAGES izninin kontrolü
             if (ContextCompat.checkSelfPermission(
                     this,
                     Manifest.permission.READ_MEDIA_IMAGES
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
+                // Kullanıcı daha önce izni reddettiyse ve bir açıklama göstermemiz gerekiyorsa
                 if (ActivityCompat.shouldShowRequestPermissionRationale(
                         this,
                         Manifest.permission.READ_MEDIA_IMAGES
                     )
                 ) {
+                    // Snackbar ile kullanıcıya izin gerektiği bildiriliyor
                     Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE)
                         .setAction("Give permission", View.OnClickListener {
+                            // Kullanıcı "Give permission" seçeneğine tıklarsa izin isteği başlatılıyor
                             permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
                         }).show()
 
                 } else {
+                    // Kullanıcı daha önce izin isteme açıklamasını görmediyse doğrudan izin isteniyor
                     permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
                 }
             } else {
+                // İzin zaten verilmişse galeriye erişim için bir implicit intent başlatılıyor
                 val intentToGallery =
                     Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 activityResultLauncher.launch(intentToGallery)
             }
         } else {
+            // Android 13'ten eski cihazlar için READ_EXTERNAL_STORAGE izni kontrol ediliyor
             if (ContextCompat.checkSelfPermission(
                     this,
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
+                // Kullanıcı daha önce izni reddettiyse ve bir açıklama göstermemiz gerekiyorsa
                 if (ActivityCompat.shouldShowRequestPermissionRationale(
                         this,
                         Manifest.permission.READ_EXTERNAL_STORAGE
                     )
                 ) {
+                    // Snackbar ile kullanıcıya izin gerektiği bildiriliyor
                     Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE)
                         .setAction("Give permission", View.OnClickListener {
+                            // Kullanıcı "Give permission" seçeneğine tıklarsa izin isteği başlatılıyor
                             permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                         }).show()
 
                 } else {
+                    // Kullanıcı daha önce izin isteme açıklamasını görmediyse doğrudan izin isteniyor
                     permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                 }
             } else {
-                // Kullanıcıya seçim yapmak için iki seçenek sunalım: Galeri veya drawable kaynakları
+                // Kullanıcıya galeri veya drawable kaynakları arasından seçim yapması için bir seçenek sunuluyor
                 val options = arrayOf("Gallery", "Drawable Resources")
                 AlertDialog.Builder(this)
-                    .setTitle("Select an option")
+                    .setTitle("Select an option") // Diyalog başlığı
                     .setItems(options) { _, which ->
                         when (which) {
-                            0 -> { // Galeri seçimi
+                            0 -> { // Kullanıcı galeri seçeneğini seçerse
                                 val intentToGallery = Intent(
                                     Intent.ACTION_PICK,
                                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI
@@ -372,34 +392,14 @@ class DetailsActivity : AppCompatActivity() {
                                 activityResultLauncher.launch(intentToGallery)
                             }
 
-                            1 -> { // Drawable kaynakları seçimi
-                                showDrawableResourcePicker()
+                            1 -> { // Kullanıcı drawable kaynakları seçeneğini seçerse
                             }
                         }
                     }
-                    .setNegativeButton("Cancel", null)
+                    .setNegativeButton("Cancel", null) // Kullanıcı "Cancel" seçeneğini seçerse hiçbir işlem yapılmıyor
                     .show()
             }
         }
-    }
-
-    // Drawable kaynakları listelemek için bir metod
-    private fun showDrawableResourcePicker() {
-        val drawableResources = listOf(
-            R.drawable.emre_berk_goger,
-            R.drawable.select,
-        )
-        val resourceNames = arrayOf("Emre Berk Goger", "Select")
-
-        AlertDialog.Builder(this)
-            .setTitle("Select a Drawable Resource")
-            .setItems(resourceNames) { _, which ->
-                val selectedResource = drawableResources[which]
-                // Seçilen resmi bir ImageView'da gösterelim
-                findViewById<ImageView>(R.id.imageView).setImageResource(selectedResource)
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
     }
 
     private fun registerLauncher() {

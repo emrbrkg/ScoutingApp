@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.emreberkgoger.scoutbook.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 
+// log-in işlemlerinin yapıldığı activity sınıfı
 class LoginActivity : AppCompatActivity() {
 
     private var mBinding: ActivityLoginBinding? = null
@@ -15,10 +16,11 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Data binding'i başlat
+        // Data binding işlemleri. layout dosyası ile aktivite sınıfını bağlar.
         mBinding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(mBinding!!.root)
 
+        // Firebase authentication nesnesi oluşturulur.
         mAuth = FirebaseAuth.getInstance()
 
         // Kullanıcı zaten giriş yaptıysa MainActivity'ye yönlendir
@@ -36,7 +38,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        // Kayıt olma linkine tıklanması durumu
+        // Kayıt olma linkine tıklanması durumunda register activitye yönlendirilir.
         mBinding!!.registerText.setOnClickListener {
             navigateToRegisterActivity()
         }

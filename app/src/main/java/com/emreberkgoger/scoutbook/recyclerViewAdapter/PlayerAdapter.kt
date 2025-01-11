@@ -9,6 +9,7 @@ import com.emreberkgoger.scoutbook.activities.DetailsActivity
 import com.emreberkgoger.scoutbook.databinding.RecyclerRowBinding
 import com.emreberkgoger.scoutbook.models.Player
 
+// RecyclerView için kullanılan adapter sınıfı
 class PlayerAdapter(private val playerList: ArrayList<Player>) :
     RecyclerView.Adapter<PlayerAdapter.PlayerHolder>() {
 
