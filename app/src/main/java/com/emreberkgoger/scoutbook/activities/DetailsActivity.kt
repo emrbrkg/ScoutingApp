@@ -15,6 +15,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -450,5 +451,13 @@ class DetailsActivity : AppCompatActivity() {
                         .show()
                 }
             }
+    }
+    // Takım detaylarını gösterecek intent metodu
+    fun viewTeamDetail(view: View) {
+        val intentToTeamDetail = Intent(this@DetailsActivity, TeamDetailsActivity::class.java)
+        // Kullanıcının seçtiği takımın adını bir TextView'dan al ve hedef Activity'ye detyaları gönder.
+        val text = findViewById<TextView>(R.id.teamText).text.toString()
+        intentToTeamDetail.putExtra("teamName", text)
+        startActivity(intentToTeamDetail)
     }
 }

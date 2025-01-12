@@ -40,6 +40,14 @@
         <activity
             android:name=".activities.MainActivity"
             android:exported="true" />
+        <!-- TeamListActivity -->
+        <activity
+            android:name=".activities.TeamListActivity"
+            android:exported="true"/>
+        <!-- TeamDetailsActivity -->
+        <activity
+            android:name=".activities.TeamDetailsActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

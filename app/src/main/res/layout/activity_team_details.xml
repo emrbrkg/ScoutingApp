@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/teamCountryText"
+        android:layout_width="178dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="12dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/teamLeagueText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.652"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/teamChairmanText"
+        android:layout_width="178dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="12dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/teamHeadCoachText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.652"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/teamCapacityText"
+        android:layout_width="178dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="12dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/teamChairmanText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.652"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Country"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/teamCountryText"
+        app:layout_constraintEnd_toStartOf="@+id/teamCountryText"
+        app:layout_constraintHorizontal_bias="0.589"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/teamCountryText"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="League"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/teamLeagueText"
+        app:layout_constraintEnd_toStartOf="@+id/teamLeagueText"
+        app:layout_constraintHorizontal_bias="0.565"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/teamLeagueText"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ground"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/teamGroundText"
+        app:layout_constraintEnd_toStartOf="@+id/teamGroundText"
+        app:layout_constraintHorizontal_bias="0.565"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/teamGroundText"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chairman"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/teamChairmanText"
+        app:layout_constraintEnd_toStartOf="@+id/teamChairmanText"
+        app:layout_constraintHorizontal_bias="0.674"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/teamChairmanText"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Founded"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/teamFoundedText"
+        app:layout_constraintEnd_toStartOf="@+id/teamFoundedText"
+        app:layout_constraintHorizontal_bias="0.617"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/teamFoundedText"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Capacity"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/teamCapacityText"
+        app:layout_constraintEnd_toStartOf="@+id/teamCapacityText"
+        app:layout_constraintHorizontal_bias="0.622"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/teamCapacityText"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Head Coach"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/teamHeadCoachText"
+        app:layout_constraintEnd_toStartOf="@+id/teamHeadCoachText"
+        app:layout_constraintHorizontal_bias="0.815"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/teamHeadCoachText"
+        app:layout_constraintVertical_bias="0.08" />
+
+    <TextView
+        android:id="@+id/teamHeadCoachText"
+        android:layout_width="178dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="68dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.652"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/teamFoundedText"
+        android:layout_width="178dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="12dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/teamGroundText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.652"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/teamLeagueText"
+        android:layout_width="178dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="12dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/teamFoundedText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.652"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/teamGroundText"
+        android:layout_width="178dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="12dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/teamCapacityText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.652"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/teamImageView"
+        android:layout_width="112dp"
+        android:layout_height="121dp"
+        app:layout_constraintBottom_toTopOf="@+id/teamCountryText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toEndOf="@+id/teamNameText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.567" />
+
+    <TextView
+        android:id="@+id/teamNameText"
+        android:layout_width="181dp"
+        android:layout_height="74dp"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.126"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.61" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

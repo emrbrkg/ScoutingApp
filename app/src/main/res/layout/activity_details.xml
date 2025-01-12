@@ -137,5 +137,16 @@
                 android:onClick="deleteButton"
                 android:text="Delete" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="49dp"
+            android:layout_height="58dp"
+            android:onClick="viewTeamDetail"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/teamText"
+            app:layout_constraintTop_toBottomOf="@+id/valueText"
+            app:srcCompat="@android:drawable/ic_menu_info_details" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
